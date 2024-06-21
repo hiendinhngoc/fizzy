@@ -1,0 +1,9 @@
+<%= form_with model: User.new, url: session_path do |f| %>
+  <%= f.label :email_address %>
+  <%= f.email_field :email_address %>
+
+  <%= f.label :password %>
+  <%= f.password_field :password %>
+
+  <%= f.submit "Sign in" %>
+<% end %>
