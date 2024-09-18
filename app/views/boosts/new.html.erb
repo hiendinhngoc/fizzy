@@ -1,5 +1,0 @@
-<%= turbo_frame_tag dom_id(@bubble, :boosts) do %>
-  <%= form_with url: project_bubble_boosts_path(@bubble.project, @bubble), data: { controller: "auto-submit" } do |form| %>
-    <%= form.submit "Boost this", hidden: true %>
-  <% end %>
-<% end %>
