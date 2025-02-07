@@ -497,3 +497,23 @@
     animation-duration: 900ms;
   }
 }
+
+.bubble__pop-container {
+  background-color: color(from var(--bubble-color) srgb r g b / 0.15);
+  margin-block-start: -1em;
+
+  .btn {
+    --btn-background: var(--bubble-color);
+    --btn-color: var(--color-ink-reversed);
+  }
+
+  .btn--plain {
+    --btn-color: var(--bubble-color);
+
+    text-decoration: underline;
+  }
+
+  .bubble__pop-message {
+    color: var(--bubble-color);
+  }
+}

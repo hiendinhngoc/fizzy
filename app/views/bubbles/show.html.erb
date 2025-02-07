@@ -62,9 +62,7 @@
       <span class="overflow-ellipsis">Boost</span>
     <% end %>
 
-    <hr class="separator--horizontal full-width" style="--border-color: var(--color-subtle);" />
     <% unless @bubble.drafted? %>
-      <%= render "bubbles/pop_toggle", bubble: @bubble %>
       <button class="btn full-width justify-start borderless min-width">
         <%= image_tag "picture-double.svg", aria: { hidden: true }, size: 24 %>
         <span class="overflow-ellipsis">I’ve seen this</span>
@@ -86,6 +84,11 @@
   <div class="bubble__perma flex justify-center center">
     <%= render "bubbles/bubble", bubble: @bubble, editing: params[:editing] %>
   </div>
+
+  
+  <% unless @bubble.drafted? %>
+    <%= render "bubbles/pop_toggle", bubble: @bubble %>
+  <% end %>
 
   <%= render "bubbles/messages", bubble: @bubble %>
 </div>
