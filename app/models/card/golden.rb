@@ -6,12 +6,7 @@ module Card::Golden
 
     has_one :goldness, dependent: :destroy, class_name: "Card::Goldness"
 
-    scope :with_golden_first, -> do
-      left_outer_joins(:goldness).tap do |relation|
-        # Make sure it can be layered in with other orderings taking precedence.
-        relation.order_values.unshift("card_goldnesses.id IS NULL")
-      end
-    end
+    scope :with_golden_first, -> { left_outer_joins(:goldness).prepend_order("card_goldnesses.id IS NULL") }
   end
 
   def golden?
