@@ -1,10 +1,10 @@
 servers:
   web:
     hosts:
-      - once-fizzy-101
+      - fizzy-app-101
   jobs:
     hosts:
-      - once-fizzy-101
+      - fizzy-app-101
 
 proxy:
   hosts:
