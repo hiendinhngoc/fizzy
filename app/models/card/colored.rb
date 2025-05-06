@@ -10,9 +10,8 @@ module Card::Colored
     var(--color-card-6)
     var(--color-card-7)
     var(--color-card-8)
-    var(--color-card-9)
   ]
-  DEFAULT_COLOR = COLORS[5]
+  DEFAULT_COLOR = "var(--color-card-default)"
 
   def color
     color_from_stage || DEFAULT_COLOR
