@@ -993,6 +993,16 @@ columns:
     default_function:
     collation:
     comment:
+  - !ruby/object:ActiveRecord::ConnectionAdapters::SQLite3::Column
+    auto_increment:
+    name: signal_user_id
+    cast_type: *1
+    sql_type_metadata: *2
+    'null': true
+    default:
+    default_function:
+    collation:
+    comment:
   - *9
   watches:
   - *22
@@ -2276,6 +2286,22 @@ indexes:
     nulls_not_distinct:
     comment:
     valid: true
+  - !ruby/object:ActiveRecord::ConnectionAdapters::IndexDefinition
+    table: users
+    name: index_users_on_signal_user_id
+    unique: true
+    columns:
+    - signal_user_id
+    lengths: {}
+    orders: {}
+    opclasses: {}
+    where:
+    type:
+    using:
+    include:
+    nulls_not_distinct:
+    comment:
+    valid: true
   watches:
   - !ruby/object:ActiveRecord::ConnectionAdapters::IndexDefinition
     table: watches
@@ -2327,4 +2353,4 @@ indexes:
     comment:
     valid: true
   workflows: []
-version: 20250611203906
+version: 20250612163028
