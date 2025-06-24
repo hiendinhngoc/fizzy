@@ -17,6 +17,10 @@
 <section class="search">
   <%= render "searches/form" %>
 
+  <% if params[:q].present? && @search_results.none? %>
+    <p>No search results</p>/
+  <% end %>
+
   <ul class="search__list">
     <%= render partial: "searches/result", collection: @search_results %>
   </ul>
