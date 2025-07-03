@@ -11,7 +11,7 @@ class Command::Ai::Parser
 
   def parse(query)
     normalized_query = resolve_named_params_to_ids command_translator.translate(query)
-    build_composite_command_for normalized_query, query
+    build_command_for normalized_query, query
   end
 
   private
@@ -19,7 +19,7 @@ class Command::Ai::Parser
       Command::Ai::Translator.new(context)
     end
 
-    def build_composite_command_for(normalized_query, query)
+    def build_command_for(normalized_query, query)
       query_context = context_from_query(normalized_query)
       resolved_context = query_context || context
 
@@ -29,13 +29,23 @@ class Command::Ai::Parser
         commands.unshift Command::VisitUrl.new(user: user, url: query_context.url, context: resolved_context)
       end
 
-      Command::Composite.new(title: query, commands: commands, user: user, line: query, context: resolved_context)
+      if commands.many?
+        Command::Composite.new(title: query, commands: commands, user: user, line: query, context: resolved_context)
+      else
+        build_standalone_command(commands, query)
+      end
     end
 
     def commands_from_query(normalized_query, context)
       parser = Command::Parser.new(context)
       if command_lines = normalized_query[:commands].presence
         command_lines.collect { parser.parse(it) }
+      end
+    end
+
+    def build_standalone_command(commands, query)
+      commands.first.tap do |command|
+        command.line = query
       end
     end
 
