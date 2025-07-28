@@ -289,12 +289,13 @@
   }
 
   .card__closed {
-    --stamp-color: oklch(var(--lch-green-light));
+    --stamp-color: oklch(var(--lch-green-medium) / 0.65);
 
     align-items: center;
+    background-color: color-mix(in srgb, var(--card-bg-color), transparent 10%);
     border-radius: 0.2em;
     border: 0.5ch solid var(--stamp-color);
-    color: var(--stamp-color);
+    color: var(--color-ink-medium);
     display: flex;
     flex-direction: column;
     font-weight: bold;
@@ -302,7 +303,6 @@
     justify-content: center;
     max-inline-size: 25ch;
     min-inline-size: 16ch;
-    mix-blend-mode: multiply;
     padding: 1ch;
     position: absolute;
     rotate: 5deg;
@@ -319,6 +319,7 @@
   }
 
   .card__closed-title {
+    color: var(--stamp-color);
     font-size: 1.3em;
     font-weight: 900;
     line-height: 1.2;
