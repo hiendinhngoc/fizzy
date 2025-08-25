@@ -9,8 +9,8 @@
     }
 
     .btn {
-      --input-background: var(--color-canvas);
       --btn-border-color: var(--color-ink-medium);
+      --input-background: var(--color-canvas);
     }
   }
 
