@@ -1,17 +1,18 @@
 <% filter = user_filtering.filter %>
 <%= tag.div class: "quick-filter position-relative",
-      data: { controller: "dialog", action: "keydown.esc->dialog#close click@document->dialog#closeOnClickOutside", filter_show: user_filtering.show_assignees? } do %>
-    <button class="btn input input--select flex-inline txt-x-small" data-action="click->dialog#open:stop">
-      <span class="overflow-ellipsis">
-        <% if filter.assignment_status.unassigned? %>
-          No one
-        <% elsif filter.assignees.any? %>
-          Assigned to <%= filter.assignees.map(&:familiar_name).to_sentence(two_words_connector: " or ", last_word_connector: ", or ") %>
-        <% else %>
-          Assigned to…
-        <% end %>
+      data: {
+        controller: "dialog multi-selection-combobox form",
+        action: "keydown.esc->dialog#close click@document->dialog#closeOnClickOutside",
+        filter_show: user_filtering.show_assignees?,
+        multi_selection_combobox_no_selection_label_value: "Assigned to…" } do %>
+    <button type="button" class="btn input input--select flex-inline txt-x-small" data-action="click->dialog#toggle:stop">
+      <span class="overflow-ellipsis" data-multi-selection-combobox-target="label">
       </span>
     </button>
+
+    <template data-multi-selection-combobox-target="hiddenFieldTemplate">
+      <%= hidden_field_tag "assignee_ids[]", nil, data: { filter_settings_target: "field" } %>
+    </template>
 
     <%= filter_dialog "Assigned to…" do %>
       <strong class="popup__title">Assigned to…</strong>
@@ -21,55 +22,25 @@
               type: "search", autocorrect: "off", autocomplete: "off", data: { "1p-ignore": "true", filter_target: "input", action: "input->filter#filter" } %>
       <% end %>
 
-      <ul class="popup__list" data-filter-target="list">
-        <li class="popup__item" data-filter-target="item" data-navigable-list-target="item">
-          <%= form_with url: cards_path, method: :get, class: "full-width", data: { controller: "form" } do |form| %>
-            <% filter.as_params.except(:assignee_ids, :assignment_status).each do |key, value| %>
-              <%= filter_hidden_field_tag key, value %>
-            <% end %>
-
-            <% unless filter.assignment_status.unassigned? %>
-              <%= hidden_field_tag :assignment_status, "unassigned" %>
-            <% end %>
-
-            <%= hidden_field_tag :expand_all, true, disabled: !user_filtering.expanded?, data: { toggle_enable_target: "element" } %>
-
-            <%= form.button type: "submit", class: "popup__btn btn" do %>
-              <span class="overflow-ellipsis flex-item-grow">No one</span>
-              <% if filter.assignment_status.unassigned? %>
-                <%= icon_tag "check", class: "checked flex-item-justify-end" %>
-              <% end %>
-            <% end %>
-          <% end %>
-        </li>
+      <ul class="popup__list" data-filter-target="list" role="listbox">
+        <%= tag.li class: "popup__item", data: {
+              navigable_list_target: "item", multi_selection_combobox_target: "item", multi_selection_combobox_value: "unassigned", multi_selection_combobox_label: "No one" },
+              role: "checkbox", aria: { checked: filter.assignment_status.unassigned? } do %>
+          <button type="button" class="btn popup__btn" data-action="dialog#close multi-selection-combobox#change form#submit filter-settings#change">
+            <span class="overflow-ellipsis flex-item-grow">No one</span>
+            <%= icon_tag "check", class: "checked flex-item-justify-end", "aria-hidden": true %>
+          </button>
+        <% end %>
 
         <% user_filtering.users.each do |user| %>
-          <li class="popup__item" data-filter-target="item" data-navigable-list-target="item">
-            <%= form_with url: cards_path, method: :get, class: "full-width", data: { controller: "form" } do |form| %>
-              <% filter.as_params.except(:assignee_ids, :assignment_status).each do |key, value| %>
-                <%= filter_hidden_field_tag key, value %>
-              <% end %>
-
-              <% filter.assignees.each do |existing_assignee| %>
-                <% unless existing_assignee == user %>
-                  <%= hidden_field_tag "assignee_ids[]", existing_assignee.id %>
-                <% end %>
-              <% end %>
-
-              <% unless filter.assignees.include?(user) %>
-                <%= hidden_field_tag "assignee_ids[]", user.id %>
-              <% end %>
-
-              <%= hidden_field_tag :expand_all, true, disabled: !user_filtering.expanded?, data: { toggle_enable_target: "element" } %>
-
-              <%= form.button type: "submit", class: "popup__btn btn" do %>
-                <span class="overflow-ellipsis flex-item-grow"><%= user.name %></span>
-                <% if filter.assignees.include?(user) %>
-                  <%= icon_tag "check", class: "checked flex-item-justify-end" %>
-                <% end %>
-              <% end %>
-            <% end %>
-          </li>
+          <%= tag.li class: "popup__item", data: {
+                navigable_list_target: "item", multi_selection_combobox_target: "item", multi_selection_combobox_value: user.id, multi_selection_combobox_label: user.name },
+                role: "checkbox", aria: { checked: filter.assignees.include?(user) } do %>
+            <button type="button" class="btn popup__btn" data-action="dialog#close multi-selection-combobox#change form#submit filter-settings#change">
+              <span class="overflow-ellipsis flex-item-grow"><%= user.name %></span>
+              <%= icon_tag "check", class: "checked flex-item-justify-end", "aria-hidden": true %>
+            </button>
+          <% end %>
         <% end %>
       </ul>
     <% end %>

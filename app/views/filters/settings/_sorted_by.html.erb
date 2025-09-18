@@ -2,11 +2,12 @@
 
 <%= tag.div class: class_names("quick-filter position-relative"),
       data: {
-            controller: "dialog combobox",
-            action: "keydown.esc->dialog#close click@document->dialog#closeOnClickOutside",
-            filter_show: user_filtering.show_sorted_by?,
-            turbo_action: "advance",
-            combobox_default_value: "latest" } do %>
+        controller: "dialog combobox",
+        action: "keydown.esc->dialog#close click@document->dialog#closeOnClickOutside",
+        filter_show: user_filtering.show_sorted_by?,
+        turbo_action: "advance",
+        combobox_default_value_value: "latest",
+        combobox_with_default_class: "quick-filter--with-default" } do %>
     <button type="button" class="btn input input--select flex-inline txt-x-small" data-action="click->dialog#toggle:stop">
       <span class="overflow-ellipsis" data-combobox-target="label">
       </span>

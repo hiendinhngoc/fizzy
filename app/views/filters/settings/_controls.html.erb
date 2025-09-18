@@ -3,8 +3,8 @@
   <%= hidden_field_tag :expand_all, true, disabled: !user_filtering.expanded?, data: { toggle_enable_target: "element" } %>
   <%= render "filters/settings/sorted_by", user_filtering: user_filtering %>
   <%= render "filters/settings/indexed_by", user_filtering: user_filtering %>
-  <%= render "filters/settings/tags", user_filtering: user_filtering %>
-<%#= render "filters/settings/assignees", user_filtering: user_filtering %>
-<%#= render "filters/settings/creators", user_filtering: user_filtering %>
-<%#= render "filters/settings/closers", user_filtering: user_filtering %>
+  <%#= render "filters/settings/tags", user_filtering: user_filtering %>
+  <%#= render "filters/settings/assignees", user_filtering: user_filtering %>
+  <%#= render "filters/settings/creators", user_filtering: user_filtering %>
+  <%#= render "filters/settings/closers", user_filtering: user_filtering %>
 <% end %>

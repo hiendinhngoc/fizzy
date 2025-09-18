@@ -116,7 +116,7 @@
       display: block;
     }
 
-    &:has([aria-checked="true"]) {
+    &:has([aria-checked="true"]):not(.quick-filter--with-default) {
       .input--select {
         --input-background: var(--color-selected);
       }
