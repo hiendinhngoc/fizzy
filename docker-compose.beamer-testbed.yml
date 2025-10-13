@@ -28,7 +28,7 @@ services:
     volumes:
       - .:/rails
       - ./tmp/beamer-testbed/fizzy-01/storage:/rails/storage
-      - ./tmp/beamer-testbed/fizzy-01/:/rails/tmp
+      - ./tmp/beamer-testbed/fizzy-01/tmp:/rails/tmp
 
   fizzy-02:
     <<: *app
@@ -36,7 +36,7 @@ services:
     volumes:
       - .:/rails
       - ./tmp/beamer-testbed/fizzy-02/storage:/rails/storage
-      - ./tmp/beamer-testbed/fizzy-02/:/rails/tmp
+      - ./tmp/beamer-testbed/fizzy-02/tmp:/rails/tmp
 
   fizzy-03:
     <<: *app
@@ -44,7 +44,7 @@ services:
     volumes:
       - .:/rails
       - ./tmp/beamer-testbed/fizzy-03/storage:/rails/storage
-      - ./tmp/beamer-testbed/fizzy-03/:/rails/tmp
+      - ./tmp/beamer-testbed/fizzy-03/tmp:/rails/tmp
 
 secrets:
   GITHUB_TOKEN:
