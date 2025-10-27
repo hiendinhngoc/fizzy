@@ -154,18 +154,20 @@
 
   .reaction__emoji-list {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(10, 1fr);
 
     .btn {
-      --btn-icon-size: 1.5ch;
-      --btn-size: var(--reaction-size);
-      --btn-border-color: var(--color-canvas);
+      --btn-size: 1.5rem;
 
+      font-size: 1rem;
       position: relative;
 
       /* Make sure the selection ring sits on top of adjacent buttons on hover */
       &:hover,
       &:focus-visible {
+        /* box-shadow: var(--shadow); */
+        filter: none;
+        scale: 1.5;
         z-index: 1;
       }
     }
