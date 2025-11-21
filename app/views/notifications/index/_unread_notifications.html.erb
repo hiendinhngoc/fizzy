@@ -4,13 +4,6 @@
       <h2 class="txt-medium txt-uppercase txt-alert">New for you</h2>
       <%= button_to "Mark all as read", bulk_reading_path, class: "btn txt-small", form: { data: { turbo: false } }, data: { action: "badge#clear" } %>
     </div>
-
-    <% total_unread_count = Current.user.notifications.unread.count %>
-    <% if Current.user.notifications.unread.count > NotificationsController::MAX_UNREAD_NOTIFICATIONS %>
-      <div class="events__column-footer fill-highlight txt-x-small border-radius margin-block-end">
-        Showing the <%= NotificationsController::MAX_UNREAD_NOTIFICATIONS %> most recent (<%= total_unread_count - NotificationsController::MAX_UNREAD_NOTIFICATIONS %> are hidden)
-      </div>
-    <% end %>
   <% else %>
     <div class="notifications-list__empty-message pad border-radius border translucent" style="--border-style: dashed; --border-color: var(--color-ink); --border-radius: 0.2em;">
       <strong>Nothing new for you.</strong>
@@ -20,4 +13,13 @@
   <div id="notifications_list" contents>
     <%= render partial: "notifications/index/notification", collection: unread, cached: true %>
   </div>
+
+  <% if unread.any? %>
+    <% total_unread_count = Current.user.notifications.unread.count %>
+    <% if Current.user.notifications.unread.count > NotificationsController::MAX_UNREAD_NOTIFICATIONS %>
+      <div class="fill-highlight txt-x-small border-radius pad-block-half pad-inline">
+        Showing the <%= NotificationsController::MAX_UNREAD_NOTIFICATIONS %> most recent (<%= total_unread_count - NotificationsController::MAX_UNREAD_NOTIFICATIONS %> are hidden)
+      </div>
+    <% end %>
+  <% end %>
 </section>
