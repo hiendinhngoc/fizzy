@@ -2,7 +2,8 @@ class Cards::TaggingsController < ApplicationController
   include CardScoped
 
   def new
-    @tags = Current.account.tags.all.alphabetically
+    @tagged_with = @card.tags.alphabetically
+    @tags = Current.account.tags.all.alphabetically.where.not(id: @tagged_with)
     fresh_when etag: [ @tags, @card.tags ]
   end
 
