@@ -64,7 +64,7 @@ class Event::Description
       when "card_postponed"
         %(#{creator} moved #{card_title} to "Not Now")
       when "card_auto_postponed"
-        %(#{card_title} was closed as "Not Now" due to inactivity)
+        %(#{card_title} moved to "Not Now" due to inactivity)
       when "card_resumed"
         "#{creator} resumed #{card_title}"
       when "card_title_changed"

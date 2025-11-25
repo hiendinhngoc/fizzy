@@ -4,7 +4,7 @@ class ApplicationController < ActionController::Base
   include CurrentRequest, CurrentTimezone, SetPlatform
   include TurboFlash, ViewTransitions
   include Saas
-  include RoutingHeaders, WriterAffinity
+  include RoutingHeaders
 
   etag { "v1" }
   stale_when_importmap_changes

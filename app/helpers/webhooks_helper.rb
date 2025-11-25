@@ -10,7 +10,7 @@ module WebhooksHelper
     card_closed: "Card moved to “Done”",
     card_reopened: "Card reopened",
     card_postponed: "Card moved to “Not Now”",
-    card_auto_postponed: "Card auto-closed as “Not Now”",
+    card_auto_postponed: "Card moved to “Not Now” due to inactivity",
     card_sent_back_to_triage: "Card moved back to “Maybe?”"
   }.with_indifferent_access.freeze
 

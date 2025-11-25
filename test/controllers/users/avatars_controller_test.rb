@@ -5,6 +5,13 @@ class Users::AvatarsControllerTest < ActionDispatch::IntegrationTest
     sign_in_as :david
   end
 
+  test "show system user" do
+    get user_avatar_path(users(:system))
+
+    assert_response :redirect
+    assert_redirected_to ActionController::Base.helpers.image_path("system_user.png")
+  end
+
   test "show own initials without caching" do
     get user_avatar_path(users(:david))
     assert_match "image/svg+xml", @response.content_type

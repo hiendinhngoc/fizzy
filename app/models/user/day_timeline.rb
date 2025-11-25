@@ -38,7 +38,7 @@ class User::DayTimeline
   end
 
   def closed_column
-    @closed_column ||= build_column("Closed", 3, events.where(action: "card_closed"))
+    @closed_column ||= build_column("Done", 3, events.where(action: "card_closed"))
   end
 
   def cache_key
@@ -55,6 +55,7 @@ class User::DayTimeline
       card_collection_changed
       card_board_changed
       card_postponed
+      card_auto_postponed
       card_triaged
       card_sent_back_to_triage
       comment_created

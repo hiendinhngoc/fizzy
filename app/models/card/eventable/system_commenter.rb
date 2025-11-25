@@ -8,7 +8,7 @@ class Card::Eventable::SystemCommenter
   def comment
     return unless comment_body.present?
 
-    card.comments.create! creator: User.system, body: comment_body, created_at: event.created_at
+    card.comments.create! creator: card.account.system_user, body: comment_body, created_at: event.created_at
   end
 
   private
@@ -25,7 +25,7 @@ class Card::Eventable::SystemCommenter
       when "card_postponed"
         "#{event.creator.name} <strong>moved</strong> this to “Not Now”"
       when "card_auto_postponed"
-        "<strong>Closed</strong> as “Not Now” due to inactivity"
+        "<strong>Moved</strong> to “Not Now” due to inactivity"
       when "card_title_changed"
         "#{event.creator.name} <strong>changed the title</strong> from “#{event.particulars.dig('particulars', 'old_title')}” to “#{event.particulars.dig('particulars', 'new_title')}”."
       when "card_board_changed"

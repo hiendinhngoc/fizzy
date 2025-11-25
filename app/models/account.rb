@@ -31,4 +31,8 @@ class Account < ApplicationRecord
   def account
     self
   end
+
+  def system_user
+    users.where(role: :system).first!
+  end
 end

@@ -1,6 +1,5 @@
 import { Controller } from "@hotwired/stimulus"
 import { orient } from "helpers/orientation_helpers"
-import { limitHeightToViewport } from "helpers/sizing_helpers"
 
 export default class extends Controller {
   static targets = [ "dialog" ]
@@ -23,8 +22,6 @@ export default class extends Controller {
       orient(this.dialogTarget)
     }
 
-    limitHeightToViewport(this.dialogTarget, this.sizingValue)
-
     this.loadLazyFrames()
     this.dialogTarget.setAttribute("aria-hidden", "false")
     this.dispatch("show")
@@ -43,7 +40,6 @@ export default class extends Controller {
     this.dialogTarget.setAttribute("aria-hidden", "true")
     this.dialogTarget.blur()
     orient(this.dialogTarget, false)
-    limitHeightToViewport(this.dialogTarget, false)
     this.dispatch("close")
   }
 

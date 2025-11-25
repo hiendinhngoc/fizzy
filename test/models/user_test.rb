@@ -35,14 +35,4 @@ class UserTest < ActiveSupport::TestCase
     assert_equal "DHH", User.new(name: "David Heinemeier Hansson").initials
     assert_equal "ÉLH", User.new(name: "Éva-Louise Hernández").initials
   end
-
-  test "system user" do
-    system_user = User.system
-
-    assert system_user.system?
-    assert_equal "System", system_user.name
-    assert_equal "S", system_user.initials
-
-    assert_not_includes User.active, system_user
-  end
 end

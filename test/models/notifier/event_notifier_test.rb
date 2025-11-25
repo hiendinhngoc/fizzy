@@ -7,7 +7,7 @@ class Notifier::EventNotifierTest < ActiveSupport::TestCase
 
   test "generate does not create notifications if the event was system-generated" do
     cards(:logo).drafted!
-    events(:logo_published).update!(creator: User.system)
+    events(:logo_published).update!(creator: accounts("37s").system_user)
 
     assert_no_difference -> { Notification.count } do
       Notifier.for(events(:logo_published)).notify

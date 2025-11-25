@@ -10,7 +10,7 @@ ssh app@fizzy-lb-101.df-iad-int.37signals.com \
       --force \
       --tls \
       --host=app.fizzy.do \
-      --writer-affinity-timeout=1s \
+      --writer-affinity-timeout=0 \
       --tls-acme-cache-path=/certificates \
       --target=fizzy-app-101.df-iad-int.37signals.com \
       --target=fizzy-app-102.df-iad-int.37signals.com
@@ -24,7 +24,7 @@ ssh app@fizzy-lb-01.sc-chi-int.37signals.com \
       --force \
       --tls \
       --host=app.fizzy.do \
-      --writer-affinity-timeout=1s \
+      --writer-affinity-timeout=0 \
       --tls-acme-cache-path=/certificates \
       --target=fizzy-app-101.df-iad-int.37signals.com \
       --target=fizzy-app-102.df-iad-int.37signals.com \
@@ -40,7 +40,7 @@ ssh app@fizzy-lb-401.df-ams-int.37signals.com \
       --force \
       --tls \
       --host=app.fizzy.do \
-      --writer-affinity-timeout=1s \
+      --writer-affinity-timeout=0 \
       --tls-acme-cache-path=/certificates \
       --target=fizzy-app-101.df-iad-int.37signals.com \
       --target=fizzy-app-102.df-iad-int.37signals.com \

@@ -7,7 +7,9 @@ class Users::AvatarsController < ApplicationController
   before_action :ensure_permission_to_administer_user, only: :destroy
 
   def show
-    if @user.avatar.attached?
+    if @user.system?
+      redirect_to view_context.image_path("system_user.png")
+    elsif @user.avatar.attached?
       redirect_to rails_blob_url(@user.avatar.variant(:thumb), disposition: "inline")
     elsif stale? @user, cache_control: cache_control
       render_initials

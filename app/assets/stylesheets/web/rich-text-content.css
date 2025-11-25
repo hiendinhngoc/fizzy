@@ -28,9 +28,18 @@
       }
     }
 
-    :where(b, strong) {
+    :where(b, strong, .lexxy-content__bold) {
       font-weight: 700;
     }
+
+    :where(i, em, .lexxy-content__italic) {
+      font-style: italic;
+    }
+
+    :where(s, .lexxy-content__strikethrough) {
+      text-decoration: line-through;
+    }
+
 
     :where(p, blockquote) {
       letter-spacing: -0.005ch;
@@ -73,10 +82,6 @@
     .horizontal-divider  {
       margin: var(--block-margin) 0;
       padding-block: var(--block-margin);
-    }
-
-    .lexxy-content__strikethrough {
-      text-decoration: line-through;
     }
 
     /* Code */

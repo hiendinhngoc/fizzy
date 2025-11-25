@@ -20,7 +20,7 @@ class Events::DayTimeline::ColumnsControllerTest < ActionDispatch::IntegrationTe
   test "show closed column" do
     get events_day_timeline_column_path("closed")
     assert_response :success
-    assert_select "h1", text: /Closed/
+    assert_select "h1", text: /Done/
   end
 
   test "show returns not found for invalid column" do

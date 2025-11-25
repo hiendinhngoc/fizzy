@@ -31,3 +31,9 @@ mike:
   role: admin
   identity: mike
   account: initech_uuid
+
+system_initech:
+  id: <%= ActiveRecord::FixtureSet.identify("system_initech", :uuid) %>
+  name: System
+  role: system
+  account: initech_uuid

@@ -1,10 +1,10 @@
 test:
   service: Disk
-  root: <%= Rails.root.join("tmp/storage/%{tenant}") %>
+  root: <%= Rails.root.join("tmp/storage/files") %>
 
 local:
   service: Disk
-  root: <%= Rails.root.join("storage", "tenants", Rails.env, "%{tenant}", "files") %>
+  root: <%= Rails.root.join("storage", Rails.env, "files") %>
 
 devminio:
   service: S3
@@ -19,9 +19,10 @@ devminio:
 
 # We have "development", "staging", and "production" buckets configured. Note that we don't have a
 # "beta" bucket. (As of 2025-06-01.)
+<% pure_env = Rails.env.beta? ? "production" : Rails.env %>
 purestorage:
   service: S3
-  bucket: fizzy-<%= Rails.env %>-activestorage
+  bucket: fizzy-<%= pure_env %>-activestorage
   endpoint: "https://storage.basecamp.com"
   ssl_verify_peer: false # FIXME: using self-signed cert internally
   force_path_style: true

@@ -49,7 +49,7 @@ module Board::Accessible
   end
 
   def watchers
-    users.without(User.system).where(accesses: { involvement: :watching })
+    users.active.where(accesses: { involvement: :watching })
   end
 
   private

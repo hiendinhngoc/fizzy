@@ -1,8 +1,18 @@
+require_relative "metrics"
+require_relative "transaction_pinning"
+
 module Fizzy
   module Saas
     class Engine < ::Rails::Engine
       # moved from config/initializers/queenbee.rb
       Queenbee.host_app = Fizzy
+
+      initializer "fizzy_saas.transaction_pinning" do |app|
+        app.config.middleware.insert_after(
+          ActiveRecord::Middleware::DatabaseSelector,
+          TransactionPinning::Middleware
+        )
+      end
 
       config.to_prepare do
         Queenbee::Subscription.short_names = Subscription::SHORT_NAMES

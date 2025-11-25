@@ -438,9 +438,7 @@
 
     /* Cover bubbles and cards on small viewports */
     @media (max-width: 639px) {
-      &:not(.cards--closed &) {
-        margin-inline: calc(-1 * var(--cards-gap) - var(--main-padding));
-      }
+      margin-inline: calc(-1 * var(--cards-gap) - var(--main-padding));
     }
 
     &, .cards__filter {
@@ -659,6 +657,7 @@
   /* On Deck (Not Now)
   /* ------------------------------------------------------------------------ */
 
+  .cards--closed,
   .cards--on-deck {
     --card-color: var(--color-ink-light) !important;
 
@@ -671,10 +670,18 @@
     }
   }
 
+  /* Closed (Done)
+  /* ------------------------------------------------------------------------ */
+
+  .cards--closed {
+
+  }
+
   /* Doing
   /* -------------------------------------------------------------------------- */
 
   /* Surface a mini bubble if there are cards with bubbles inside */
+  .cards--considering:has(.bubble:not([hidden])),
   .cards--doing.is-collapsed:has(.bubble:not([hidden])) {
     .cards__transition-container {
       --bubble-color: var(--card-color, oklch(var(--lch-blue-medium)));
@@ -693,6 +700,11 @@
         position: absolute;
         translate: 20% -20%;
         z-index: 1;
+      }
+
+      .cards--considering &:before {
+        inset: 0 auto auto 0;
+        translate: 100% 75%;
       }
     }
   }

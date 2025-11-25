@@ -26,7 +26,7 @@ module Card::Entropic
   class_methods do
     def auto_postpone_all_due
       due_to_be_postponed.find_each do |card|
-        card.auto_postpone(user: User.system)
+        card.auto_postpone(user: card.account.system_user)
       end
     end
   end

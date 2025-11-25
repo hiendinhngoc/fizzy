@@ -32,7 +32,7 @@
     <% end %>
   <% end %>
 
-  <%= link_to board_columns_closed_path(board), class: "cards cards--on-deck is-collapsed", style: "--card-color: var(--color-card-complete);", data: { turbo_frame: "_top" } do %>
+  <%= link_to board_columns_closed_path(board), class: "cards cards--closed is-collapsed", style: "--card-color: var(--color-card-complete);", data: { turbo_frame: "_top" } do %>
     <div class="cards__expander btn btn--plain" style="--card-count: <%= board.cards.closed.count %>">
       <span class="cards__expander-count"><%= board.cards.closed.count %></span>
       <h2 class="cards__expander-title">

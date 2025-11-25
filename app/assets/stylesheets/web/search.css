@@ -50,35 +50,19 @@ summary {
 
   .search__reset {
     --btn-background: var(--color-terminal-bg);
-    --btn-size: 1.25lh;
-
-    @media (min-width: 800px) {
-      .search__input:placeholder-shown ~ & {
-        opacity: 0;
-      }
-    }
+    --btn-size: 1.5lh;
   }
 
 
   /* Content
   /* ------------------------------------------------------------------------ */
 
-  .search__header {
-    align-items: center;
-    display: flex;
-    inset: 0 0 auto 0;
-    justify-content: flex-end;
-    padding: var(--block-space-half) var(--block-space);
-    pointer-events: none;
-    position: absolute;
-  }
-
   .search__list {
     display: grid;
     gap: var(--block-space);
     list-style: none;
     margin: 0 auto;
-    max-inline-size: 80ch;
+    max-inline-size: min(80ch, 100%);
     padding: 0;
     text-align: start;
   }

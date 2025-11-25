@@ -43,7 +43,7 @@ class Card::EntropicTest < ActiveSupport::TestCase
     end
 
     assert cards(:logo).reload.postponed?
-    assert_equal User.system, cards(:logo).postponed_by
+    assert_equal accounts("37s").system_user, cards(:logo).postponed_by
     assert_not cards(:shipping).reload.postponed?
   end
 

@@ -41,6 +41,22 @@ class AccountTest < ActiveSupport::TestCase
       assert_equal "David", admin.name
       assert_equal "david@37signals.com", admin.identity.email_address
       assert_equal "admin", admin.role
+
+      assert_predicate account.system_user, :present?
+    end
+  end
+
+  test "#system_user returns the system user of the account" do
+    system_user = User.find_by!(account: accounts("37s"), role: :system)
+
+    assert_equal system_user, accounts("37s").system_user
+  end
+
+  test "#system_user raises if there is no system user" do
+    account = Account.create!(name: "No System User Account")
+
+    assert_raises ActiveRecord::RecordNotFound do
+      account.system_user
     end
   end
 end
