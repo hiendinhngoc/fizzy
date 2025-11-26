@@ -19,7 +19,7 @@
 default: &default
   <% if use_sqlite %>
   adapter: sqlite3
-  pool: 50
+  pool: 5
   timeout: 5000
   <% else %>
   adapter: trilogy
