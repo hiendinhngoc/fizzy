@@ -42,7 +42,6 @@
     font-size: var(--text-x-small);
     gap: var(--header-gap);
     inline-size: var(--header-actions-width);
-    min-inline-size: fit-content;
   }
 
   .header__actions--start {
