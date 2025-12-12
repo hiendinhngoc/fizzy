@@ -41,3 +41,16 @@
 
 /config/credentials/*.key
 .DS_Store
+
+# Ignore environment-specific Kamal deployment configs
+/config/deploy.production.yml
+/config/deploy.staging.yml
+
+.kamal/*
+# Ignore key files for decrypting credentials and more.
+/config/*.key
+
+
+# Ignore key files for decrypting credentials and more.
+/config/credentials/*.key
+
