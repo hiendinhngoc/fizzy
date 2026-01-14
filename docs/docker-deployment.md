@@ -45,7 +45,7 @@ bin/rails secret
 Once you have one, set it in the `SECRET_KEY_BASE` environment variable:
 
 ```sh
-docker run --environment SECRET_KEY_BASE=abcdefabcdef ...
+docker run --env SECRET_KEY_BASE=abcdefabcdef ...
 ```
 
 #### SSL
@@ -56,7 +56,7 @@ Note that if you're using SSL, you'll want to allow traffic on ports 80 and 443.
 So if you were running on `fizzy.example.com` you could enable SSL like this:
 
 ```sh
-docker run --publish 80:80 --publish 443:443 --environment TLS_DOMAIN=fizzy.example.com ...
+docker run --publish 80:80 --publish 443:443 --env TLS_DOMAIN=fizzy.example.com ...
 ```
 
 If you are terminating SSL in some other proxy in front of Fizzy, then you don't need to set `TLS_DOMAIN`, and can just publish port 80:
@@ -67,7 +67,7 @@ docker run --publish 80:80 ...
 If you aren't using SSL at all (for example, if you want to run it locally on your laptop) then you should specify `DISABLE_SSL=true` instead:
 
 ```sh
-docker run --publish 80:80 --environment DISABLE_SSL=true ...
+docker run --publish 80:80 --env DISABLE_SSL=true ...
 ```
 
 #### SMTP Email
@@ -89,6 +89,15 @@ Less commonly, you might also need to set some of the following:
 - `SMTP_SSL_VERIFY_MODE` - set to `none` to skip certificate verification (for self-signed certs)
 
 You can find out more about all these settings in the [Rails Action Mailer documentation](https://guides.rubyonrails.org/action_mailer_basics.html#action-mailer-configuration).
+
+#### Base URL
+
+Fizzy needs to know the public URL of your instance so it can generate correct links in certain situations (like when sending emails).
+Set `BASE_URL` to the full URL where your Fizzy instance is accessible:
+
+```sh
+docker run --env BASE_URL=https://fizzy.example.com ...
+```
 
 #### VAPID keys
 
@@ -114,7 +123,7 @@ Set those in the `VAPID_PRIVATE_KEY` and `VAPID_PUBLIC_KEY` environment variable
 
 #### S3 storage (optional)
 
-If you're rather that uploaded files were stored in an S3 bucket, rather than your mounted volume, you can set that up.
+If you'd prefer that uploaded files were stored in an S3 bucket rather than in your mounted volume, you can set that up.
 
 First set `ACTIVE_STORAGE_SERVICE` to `s3`.
 Then set the following as appropriate for your S3 bucket:
@@ -153,6 +162,7 @@ services:
     environment:
       - SECRET_KEY_BASE=abcdefabcdef
       - TLS_DOMAIN=fizzy.example.com
+      - BASE_URL=https://fizzy.example.com
       - MAILER_FROM_ADDRESS=fizzy@example.com
       - SMTP_ADDRESS=mail.example.com
       - SMTP_USERNAME=user
