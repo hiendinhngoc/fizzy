@@ -29,6 +29,6 @@ class Cards::PullRequestLinksController < ApplicationController
     end
 
     def pull_request_link_params
-      params.expect(pull_request_link: [:github_pr_url])
+      params.expect(pull_request_link: [ :github_pr_url ])
     end
 end
