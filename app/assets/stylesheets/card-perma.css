@@ -93,7 +93,8 @@
         margin-block-end: 0;
 
         @supports not (field-sizing: content) {
-          text-wrap: unset; /* Safari is annoying if you have text-wrap: balance in textareas */
+          text-wrap: unset;
+          /* Safari is annoying if you have text-wrap: balance in textareas */
         }
       }
     }
@@ -124,13 +125,13 @@
         position: relative;
         white-space: nowrap;
 
-        & > form {
+        &>form {
           flex-grow: 1;
           max-inline-size: 25ch;
           min-block-size: 2.5em;
         }
 
-        & > form + form:not(:has(.card__column-name--current)) {
+        &>form+form:not(:has(.card__column-name--current)) {
           box-shadow: -1px 0 0 0 var(--color-container);
         }
       }
@@ -256,8 +257,13 @@
     }
   }
 
-  .card-perma__actions--left { grid-area: actions-left; }
-  .card-perma__actions--right { grid-area: actions-right; }
+  .card-perma__actions--left {
+    grid-area: actions-left;
+  }
+
+  .card-perma__actions--right {
+    grid-area: actions-right;
+  }
 
   @media (max-width: 799px) {
     .card-perma__actions {
@@ -273,6 +279,7 @@
   }
 
   .card-perma__image-btn {
+
     &:has(input[type="file"]:focus),
     &:has(input[type="file"]:focus-visible) {
       outline: var(--focus-ring) !important;
@@ -324,6 +331,10 @@
     position: relative;
     text-align: center;
     z-index: 0;
+
+    &:has(dialog[open]) {
+      z-index: 10;
+    }
   }
 
   .card-perma__notch--top {
@@ -340,7 +351,7 @@
 
       text-align: center;
 
-      &:has(input:checked)  {
+      &:has(input:checked) {
         --btn-background: var(--card-color);
         --btn-border-color: var(--card-color);
         --btn-color: var(--color-ink-inverted);
@@ -408,7 +419,7 @@
     }
 
     @media (min-width: 800px) {
-      .card-perma__notch--bottom:has(.btn) ~ & {
+      .card-perma__notch--bottom:has(.btn)~& {
         margin-block: var(--block-space-half) var(--block-space);
         translate: 0 calc(-0.5 * var(--half-btn-height));
       }

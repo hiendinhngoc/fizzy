@@ -43,6 +43,8 @@ export default class extends Controller {
   }
 
   close() {
+    if (!this.dialogTarget.open) return
+
     this.dialogTarget.close()
     this.dialogTarget.setAttribute("aria-hidden", "true")
     this.dialogTarget.blur()
