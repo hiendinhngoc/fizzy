@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.2].define(version: 2026_01_21_155752) do
+ActiveRecord::Schema[8.2].define(version: 2026_01_24_162456) do
   create_table "accesses", id: :uuid, force: :cascade do |t|
     t.datetime "accessed_at"
     t.uuid "account_id", null: false
@@ -311,6 +311,15 @@ ActiveRecord::Schema[8.2].define(version: 2026_01_21_155752) do
     t.index ["tag_id"], name: "index_filters_tags_on_tag_id"
   end
 
+  create_table "github_integrations", id: :uuid, force: :cascade do |t|
+    t.uuid "account_id", null: false
+    t.boolean "active", default: true, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "webhook_secret", limit: 255, null: false
+    t.index ["account_id"], name: "index_github_integrations_on_account_id", unique: true
+  end
+
   create_table "identities", id: :uuid, force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "email_address", limit: 255, null: false
@@ -395,6 +404,20 @@ ActiveRecord::Schema[8.2].define(version: 2026_01_21_155752) do
     t.index ["card_id", "user_id"], name: "index_pins_on_card_id_and_user_id", unique: true
     t.index ["card_id"], name: "index_pins_on_card_id"
     t.index ["user_id"], name: "index_pins_on_user_id"
+  end
+
+  create_table "pull_request_links", id: :uuid, force: :cascade do |t|
+    t.uuid "account_id", null: false
+    t.uuid "card_id", null: false
+    t.datetime "created_at", null: false
+    t.string "github_pr_number", limit: 255
+    t.string "github_pr_url", limit: 255, null: false
+    t.string "github_repo_full_name", limit: 255
+    t.string "state", limit: 255, default: "open", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_pull_request_links_on_account_id"
+    t.index ["card_id", "github_pr_url"], name: "index_pull_request_links_on_card_id_and_github_pr_url", unique: true
+    t.index ["github_repo_full_name", "github_pr_number"], name: "idx_on_github_repo_full_name_github_pr_number_ef45c5a227"
   end
 
   create_table "push_subscriptions", id: :uuid, force: :cascade do |t|

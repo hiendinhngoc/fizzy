@@ -1,0 +1,15 @@
+<% if card.pull_request_links.any? || local_assigns[:show_form] %>
+  <div class="pr-links margin-top">
+    <h4 class="pr-links__title txt-small txt-muted">Pull Requests</h4>
+
+    <% if card.pull_request_links.any? %>
+      <ul class="pr-links__list">
+        <%= render partial: "cards/pull_request_links/pull_request_link", collection: card.pull_request_links %>
+      </ul>
+    <% end %>
+
+    <% if local_assigns[:show_form] %>
+      <%= render "cards/pull_request_links/form", card: card %>
+    <% end %>
+  </div>
+<% end %>

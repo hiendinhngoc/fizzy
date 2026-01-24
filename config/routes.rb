@@ -4,9 +4,14 @@ Rails.application.routes.draw do
   namespace :account do
     resource :cancellation, only: [ :create ]
     resource :entropy
+    resource :github_integration, only: [ :show, :create, :destroy ]
     resource :join_code
     resource :settings
     resources :exports, only: [ :create, :show ]
+  end
+
+  namespace :github do
+    resources :webhooks, only: :create
   end
 
   resources :users do
@@ -92,6 +97,7 @@ Rails.application.routes.draw do
       resource :self_assignment, only: :create
       resources :steps
       resources :taggings
+      resources :pull_request_links, only: [ :create, :destroy ]
 
       resources :comments do
         resources :reactions, module: :comments
