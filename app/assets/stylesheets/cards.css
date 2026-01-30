@@ -744,4 +744,74 @@
     margin: 0;
     text-align: center;
   }
+
+  /* PR Status Icon (top-right corner)
+  /* ------------------------------------------------------------------------ */
+
+  .pr-status-icon {
+    --pr-icon-size: 2.5rem;
+
+    align-items: center;
+    background-color: var(--color-canvas);
+    border: 1px solid var(--color-ink-lighter);
+    border-radius: 50%;
+    color: var(--color-ink-light);
+    display: inline-flex;
+    height: var(--pr-icon-size);
+    justify-content: center;
+    text-decoration: none;
+    transition: all 150ms ease;
+    width: var(--pr-icon-size);
+
+    &:hover {
+      border-color: var(--color-ink-light);
+      color: var(--color-ink);
+      transform: scale(1.05);
+    }
+
+    &:focus-visible {
+      outline: var(--focus-ring);
+      outline-offset: var(--focus-ring-offset);
+    }
+
+    svg {
+      flex-shrink: 0;
+    }
+  }
+
+  .pr-status-icon--open {
+    background-color: oklch(var(--lch-green-light));
+    border-color: oklch(var(--lch-green-medium));
+    color: oklch(var(--lch-green-dark));
+
+    &:hover {
+      background-color: oklch(var(--lch-green-medium) / 0.3);
+      border-color: oklch(var(--lch-green-dark));
+      color: oklch(var(--lch-green-dark));
+    }
+  }
+
+  .pr-status-icon--merged {
+    background-color: oklch(var(--lch-purple-light));
+    border-color: oklch(var(--lch-purple-medium));
+    color: oklch(var(--lch-purple-dark));
+
+    &:hover {
+      background-color: oklch(var(--lch-purple-medium) / 0.3);
+      border-color: oklch(var(--lch-purple-dark));
+      color: oklch(var(--lch-purple-dark));
+    }
+  }
+
+  .pr-status-icon--closed {
+    background-color: oklch(var(--lch-red-light));
+    border-color: oklch(var(--lch-red-medium));
+    color: oklch(var(--lch-red-dark));
+
+    &:hover {
+      background-color: oklch(var(--lch-red-medium) / 0.3);
+      border-color: oklch(var(--lch-red-dark));
+      color: oklch(var(--lch-red-dark));
+    }
+  }
 }
