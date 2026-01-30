@@ -1,0 +1,37 @@
+# Production Deployment Configuration
+# This file overrides/merges with config/deploy.yml
+# Deploy with: kamal deploy -d production
+#
+# ⚠️  CUSTOMIZE THESE VALUES BEFORE DEPLOYING! ⚠️
+
+# Fix the image name to include username for GHCR
+image: hiendinhngoc/fizzy
+
+# Your actual server(s)
+servers:
+  web:
+    - coderfarmily.space  # 🔧 CHANGE THIS to your actual domain or IP
+
+# SSL configuration with your domain
+proxy:
+  ssl: true
+  host: coderfarmily.space  # 🔧 CHANGE THIS to your actual domain
+
+# Your email/SMTP configuration
+env:
+  secret:
+    - SECRET_KEY_BASE
+    - VAPID_PUBLIC_KEY
+    - VAPID_PRIVATE_KEY
+    - SMTP_USERNAME
+    - SMTP_PASSWORD
+  clear:
+    MAILER_FROM_ADDRESS: hien.dinh@coderfarmily.space  # 🔧 CHANGE THIS
+    SMTP_ADDRESS: smtp.zoho.com  # 🔧 CHANGE THIS
+    SOLID_QUEUE_IN_PUMA: true
+
+registry:
+  server: ghcr.io
+  username: hiendinhngoc  # 🔧 Your username
+  password:
+    - KAMAL_REGISTRY_PASSWORD
