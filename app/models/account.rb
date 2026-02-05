@@ -2,6 +2,7 @@ class Account < ApplicationRecord
   include Account::Storage, Cancellable, Entropic, Incineratable, MultiTenantable, Seedeable
 
   has_one :join_code, dependent: :destroy
+  has_one :github_integration, dependent: :destroy
   has_many :users, dependent: :destroy
   has_many :boards, dependent: :destroy
   has_many :cards, dependent: :destroy

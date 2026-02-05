@@ -1,0 +1,17 @@
+logo_pr:
+  id: <%= ActiveRecord::FixtureSet.identify("logo_pr", :uuid) %>
+  card: logo_uuid
+  account: 37s_uuid
+  github_pr_url: https://github.com/basecamp/fizzy/pull/123
+  github_repo_full_name: basecamp/fizzy
+  github_pr_number: "123"
+  state: open
+
+layout_pr:
+  id: <%= ActiveRecord::FixtureSet.identify("layout_pr", :uuid) %>
+  card: layout_uuid
+  account: 37s_uuid
+  github_pr_url: https://github.com/basecamp/fizzy/pull/456
+  github_repo_full_name: basecamp/fizzy
+  github_pr_number: "456"
+  state: merged
