@@ -1,0 +1,9 @@
+<%= form_with url: card_pull_request_links_path(card), class: "pr-link-form flex gap-half" do |form| %>
+  <%= form.url_field :github_pr_url,
+        placeholder: "https://github.com/owner/repo/pull/123",
+        pattern: "https://github.com/.+/pull/\\d+",
+        required: true,
+        class: "input input--small flex-grow",
+        name: "pull_request_link[github_pr_url]" %>
+  <%= form.submit "Link PR", class: "btn btn--small" %>
+<% end %>

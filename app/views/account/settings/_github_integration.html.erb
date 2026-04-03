@@ -1,0 +1,18 @@
+<header>
+  <h2 class="divider txt-large">GitHub Integration</h2>
+  <p class="margin-none-block-start">Automatically close cards when linked pull requests are merged.</p>
+</header>
+
+<div class="margin-block-start">
+  <% integration = Current.account.github_integration %>
+  <% if integration %>
+    <p class="flex align-center gap-half">
+      <span class="status-dot status-dot--<%= integration.active? ? 'active' : 'inactive' %>"></span>
+      <strong><%= integration.active? ? 'Connected' : 'Inactive' %></strong>
+    </p>
+  <% else %>
+    <p class="txt-muted">Not configured</p>
+  <% end %>
+
+  <%= link_to "Manage GitHub Integration", account_github_integration_path, class: "btn btn--small" %>
+</div>

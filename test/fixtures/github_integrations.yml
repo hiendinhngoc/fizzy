@@ -1,0 +1,5 @@
+signals:
+  id: <%= ActiveRecord::FixtureSet.identify("signals", :uuid) %>
+  account: 37s_uuid
+  webhook_secret: test_webhook_secret_for_37signals # gitleaks:allow test fixture
+  active: true

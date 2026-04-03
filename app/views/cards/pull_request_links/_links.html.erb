@@ -1,0 +1,7 @@
+<% if card.pull_request_links.any? %>
+  <div class="pr-links margin-top">
+    <ul class="pr-links__list">
+      <%= render partial: "cards/pull_request_links/pull_request_link", collection: card.pull_request_links %>
+    </ul>
+  </div>
+<% end %>

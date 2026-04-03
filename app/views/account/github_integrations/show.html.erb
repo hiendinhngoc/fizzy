@@ -1,0 +1,64 @@
+<% @page_title = "GitHub Integration" %>
+
+<% content_for :header do %>
+  <div class="header__actions header__actions--start">
+    <%= link_to account_settings_path, class: "btn btn--icon-only" do %>
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+    <% end %>
+  </div>
+  <h1 class="header__title" data-bridge--title-target="header"><%= @page_title %></h1>
+<% end %>
+
+<section class="settings margin-block-start-half">
+  <div class="settings__panel panel shadow center">
+    <header>
+      <h2 class="divider txt-large">GitHub Integration</h2>
+      <p class="margin-none-block-start">Connect your GitHub repositories to automatically close cards when pull requests are merged.</p>
+    </header>
+
+    <% if @github_integration %>
+      <div class="github-integration margin-block-start">
+        <div class="github-integration__status flex align-center gap-half margin-block-end">
+          <span class="status-dot status-dot--<%= @github_integration.active? ? 'active' : 'inactive' %>"></span>
+          <strong><%= @github_integration.active? ? 'Active' : 'Inactive' %></strong>
+        </div>
+
+        <div class="github-integration__details panel--inner margin-block-end">
+          <h4 class="txt-small txt-muted margin-none-block-end">Webhook URL</h4>
+          <p class="txt-mono txt-small margin-none-block-start">
+            <%= github_webhooks_url(script_name: nil) %>
+          </p>
+
+          <h4 class="txt-small txt-muted margin-none-block-end margin-block-start">Webhook Secret</h4>
+          <p class="txt-mono txt-small margin-none-block-start">
+            <code><%= @github_integration.webhook_secret %></code>
+          </p>
+        </div>
+
+        <details class="margin-block-start">
+          <summary class="txt-small txt-muted cursor-pointer">Setup Instructions</summary>
+          <div class="margin-block-start-half txt-small">
+            <ol>
+              <li>Go to your GitHub repository Settings &rarr; Webhooks</li>
+              <li>Click "Add webhook"</li>
+              <li>Set Payload URL to: <code><%= github_webhooks_url(script_name: nil) %></code></li>
+              <li>Set Content type to: <code>application/json</code></li>
+              <li>Set Secret to the webhook secret shown above</li>
+              <li>Select "Let me select individual events" and check <strong>Pull requests</strong></li>
+              <li>Click "Add webhook"</li>
+            </ol>
+          </div>
+        </details>
+
+        <div class="margin-block-start">
+          <%= button_to "Remove Integration", account_github_integration_path, method: :delete, class: "btn btn--danger", data: { turbo_confirm: "Are you sure? This will stop auto-closing cards from PR merges." } %>
+        </div>
+      </div>
+    <% else %>
+      <div class="github-integration margin-block-start">
+        <p>No GitHub integration configured.</p>
+        <%= button_to "Enable GitHub Integration", account_github_integration_path, method: :post, class: "btn" %>
+      </div>
+    <% end %>
+  </div>
+</section>

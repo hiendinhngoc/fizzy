@@ -1,0 +1,43 @@
+<div class="pr-link-button position-relative"
+    data-controller="dialog"
+    data-action="keydown.esc->dialog#close click@document->dialog#closeOnClickOutside">
+  <button type="button"
+          class="btn btn--circle-mobile borderless <%= 'btn--pr-linked' if card.pull_request_links.any? %>"
+          data-action="click->dialog#open:stop"
+          data-controller="tooltip">
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="currentColor" class="icon--mobile-only">
+      <path d="M5 3.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm0 2.122a2.25 2.25 0 1 0-1.5 0v.878A2.25 2.25 0 0 0 5.75 8.5h1.5v2.128a2.251 2.251 0 1 0 1.5 0V8.5h1.5a2.25 2.25 0 0 0 2.25-2.25v-.878a2.25 2.25 0 1 0-1.5 0v.878a.75.75 0 0 1-.75.75h-4.5a.75.75 0 0 1-.75-.75v-.878ZM11 3.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM8.75 12a.75.75 0 1 0-1.5 0 .75.75 0 0 0 1.5 0Z"/>
+    </svg>
+    <span>Link PR</span>
+  </button>
+
+  <dialog class="popup panel flex-column gap-half fill-white shadow pr-link-popup"
+          data-dialog-target="dialog"
+          data-action="turbo:submit-end->dialog#close">
+    <%= form_with url: card_pull_request_links_path(card), class: "pr-link-popup__form" do |form| %>
+      <div class="pr-link-popup__header">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 16 16" fill="currentColor" style="vertical-align: -2px; margin-right: 0.5ch;">
+          <path d="M5 3.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm0 2.122a2.25 2.25 0 1 0-1.5 0v.878A2.25 2.25 0 0 0 5.75 8.5h1.5v2.128a2.251 2.251 0 1 0 1.5 0V8.5h1.5a2.25 2.25 0 0 0 2.25-2.25v-.878a2.25 2.25 0 1 0-1.5 0v.878a.75.75 0 0 1-.75.75h-4.5a.75.75 0 0 1-.75-.75v-.878ZM11 3.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM8.75 12a.75.75 0 1 0-1.5 0 .75.75 0 0 0 1.5 0Z"/>
+        </svg>
+        Link Pull Request
+      </div>
+      <div class="pr-link-popup__input-group">
+        <%= form.url_field :github_pr_url,
+              placeholder: "https://github.com/owner/repo/pull/123",
+              pattern: "https://github.com/.+/pull/\\d+",
+              required: true,
+              autofocus: true,
+              class: "input",
+              name: "pull_request_link[github_pr_url]",
+              data: { action: "keydown.enter->form#requestSubmit" } %>
+        <button type="submit" class="btn pr-link-popup__submit" data-controller="tooltip" title="Link PR">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 10 4 15 9 20"></polyline>
+            <path d="M20 4v7a4 4 0 0 1-4 4H4"></path>
+          </svg>
+        </button>
+      </div>
+      <p class="pr-link-popup__hint">Paste the full GitHub pull request URL</p>
+    <% end %>
+  </dialog>
+</div>
