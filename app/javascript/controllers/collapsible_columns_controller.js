@@ -1,5 +1,6 @@
 import { Controller } from "@hotwired/stimulus"
 import { nextFrame, debounce } from "helpers/timing_helpers";
+import { isNative } from "helpers/platform_helpers";
 
 export default class extends Controller {
   static classes = [ "collapsed", "expanded", "noTransitions", "titleNotVisible" ]
@@ -49,7 +50,13 @@ export default class extends Controller {
   focusOnColumn({ target }) {
     if (this.#isDesktop && this.#isCollapsed(target)) {
       this.#collapseAllExcept(target)
-      this.#expand(target)
+      this.#expand({ column: target })
+    }
+  }
+
+  frameColumnOnMobile(event) {
+    if (!this.#isDesktop) {
+      event.currentTarget.scrollIntoView({ behavior: "smooth", inline: "center" })
     }
   }
 
@@ -74,7 +81,7 @@ export default class extends Controller {
     this.#collapseAllExcept(column)
 
     if (this.#isCollapsed(column)) {
-      this.#expand(column)
+      this.#expand({ column })
     } else {
       this.#collapse(column)
     }
@@ -103,7 +110,7 @@ export default class extends Controller {
     localStorage.removeItem(key)
   }
 
-  #expand(column, saveState = true) {
+  #expand({ column, saveState = true, scrollBehavior = "smooth" }) {
     this.#buttonFor(column)?.setAttribute("aria-expanded", "true")
     column.classList.remove(this.collapsedClass)
     column.classList.add(this.expandedClass)
@@ -114,7 +121,7 @@ export default class extends Controller {
     }
 
     if (window.matchMedia('(max-width: 639px)').matches) {
-      column.scrollIntoView({ behavior: "smooth", inline: "center" })
+      column.scrollIntoView({ behavior: scrollBehavior, inline: "center" })
     }
   }
 
@@ -132,7 +139,7 @@ export default class extends Controller {
     const key = this.#localStorageKeyFor(column)
     if (localStorage.getItem(key)) {
       this.#collapseAllExcept(column)
-      this.#expand(column)
+      this.#expand({ column, scrollBehavior: isNative() ? "instant" : "smooth" })
     }
   }
 
@@ -168,7 +175,7 @@ export default class extends Controller {
   }
 
   async #handleDesktopMode() {
-    this.#expand(this.maybeColumnTarget, false)
+    this.#expand({ column: this.maybeColumnTarget, saveState: false })
     this.#maybeButton.setAttribute("disabled", true)
   }
 
@@ -181,7 +188,7 @@ export default class extends Controller {
       this.#collapseAllExcept(expandedColumn)
     } else {
       this.#collapseAllExcept(this.maybeColumnTarget)
-      this.#expand(this.maybeColumnTarget, false)
+      this.#expand({ column: this.maybeColumnTarget, saveState: false })
     }
   }
 
