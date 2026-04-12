@@ -27,7 +27,10 @@ env:
     - SMTP_PASSWORD
   clear:
     MAILER_FROM_ADDRESS: hien.dinh@coderfarmily.space  # 🔧 CHANGE THIS
-    SMTP_ADDRESS: smtp.zoho.com  # 🔧 CHANGE THIS
+    SMTP_ADDRESS: smtp.postmarkapp.com
+    SMTP_PORT: 587
+    SMTP_AUTHENTICATION: plain
+    SMTP_TLS: false
     SOLID_QUEUE_IN_PUMA: true
 
 registry:
