@@ -101,6 +101,7 @@ class SmokeTest < ApplicationSystemTestCase
     assert_empty card.pull_request_links
 
     visit card_url(card)
+    assert_no_selector ".card__content .pr-links"
     find("button.pr-status-icon").click
 
     assert_selector "dialog.pr-link-popup[open]"
@@ -111,6 +112,19 @@ class SmokeTest < ApplicationSystemTestCase
 
     assert_selector ".pr-status-icon--open"
     assert_equal "https://github.com/basecamp/fizzy/pull/999", card.reload.pull_request_links.first.github_pr_url
+  end
+
+  test "existing PR icon opens the management popup instead of navigating away" do
+    sign_in_as(users(:david))
+
+    visit card_url(cards(:logo))
+
+    assert_no_selector ".card__content .pr-links"
+    find("button.pr-status-icon--open").click
+
+    assert_selector "dialog.pr-link-popup[open]"
+    assert_selector "dialog.pr-link-popup[open] .pr-link__url", text: "https://github.com/basecamp/fizzy/pull/123"
+    assert_current_path card_path(cards(:logo))
   end
 
   test "link pull request modal stays visible on a narrow viewport" do
