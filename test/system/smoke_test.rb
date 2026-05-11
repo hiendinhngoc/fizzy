@@ -94,6 +94,25 @@ class SmokeTest < ApplicationSystemTestCase
     assert_equal("Triage", card.reload.column.name)
   end
 
+  test "linking a pull request from a card" do
+    sign_in_as(users(:david))
+
+    card = cards(:shipping)
+    assert_empty card.pull_request_links
+
+    visit card_url(card)
+    find("button.pr-status-icon").click
+
+    assert_selector "dialog.pr-link-popup[open]"
+
+    within("dialog.pr-link-popup[open]") do
+      find("input[name='pull_request_link[github_pr_url]']").send_keys("https://github.com/basecamp/fizzy/pull/999", :enter)
+    end
+
+    assert_selector ".pr-status-icon--open"
+    assert_equal "https://github.com/basecamp/fizzy/pull/999", card.reload.pull_request_links.first.github_pr_url
+  end
+
   private
     def fill_in_lexxy(selector = "lexxy-editor", with:)
       editor_element = find(selector)
