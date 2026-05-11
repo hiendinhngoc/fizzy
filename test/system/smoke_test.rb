@@ -94,6 +94,61 @@ class SmokeTest < ApplicationSystemTestCase
     assert_equal("Triage", card.reload.column.name)
   end
 
+  test "linking a pull request from a card" do
+    sign_in_as(users(:david))
+
+    card = cards(:shipping)
+    assert_empty card.pull_request_links
+
+    visit card_url(card)
+    assert_no_selector ".card__content .pr-links"
+    find("button.pr-status-icon").click
+
+    assert_selector "dialog.pr-link-popup[open]"
+
+    within("dialog.pr-link-popup[open]") do
+      find("input[name='pull_request_link[github_pr_url]']").send_keys("https://github.com/basecamp/fizzy/pull/999", :enter)
+    end
+
+    assert_selector ".pr-status-icon--open"
+    assert_equal "https://github.com/basecamp/fizzy/pull/999", card.reload.pull_request_links.first.github_pr_url
+  end
+
+  test "existing PR icon opens the management popup instead of navigating away" do
+    sign_in_as(users(:david))
+
+    visit card_url(cards(:logo))
+
+    assert_no_selector ".card__content .pr-links"
+    find("button.pr-status-icon--open").click
+
+    assert_selector "dialog.pr-link-popup[open]"
+    assert_selector "dialog.pr-link-popup[open] .pr-link__url", text: "https://github.com/basecamp/fizzy/pull/123"
+    assert_current_path card_path(cards(:logo))
+  end
+
+  test "link pull request modal stays visible on a narrow viewport" do
+    sign_in_as(users(:david))
+
+    page.current_window.resize_to(390, 844)
+    visit card_url(cards(:shipping))
+    find("button.pr-status-icon").click
+
+    assert_selector "dialog.pr-link-popup[open]"
+    assert_selector "dialog.pr-link-popup[open] input[name='pull_request_link[github_pr_url]']", visible: true
+
+    popup_bounds = page.evaluate_script(<<~JS)
+      (() => {
+        const popup = document.querySelector("dialog.pr-link-popup[open]")
+        const rect = popup.getBoundingClientRect()
+        return { left: rect.left, right: rect.right, viewportWidth: window.innerWidth }
+      })()
+    JS
+
+    assert_operator popup_bounds["left"], :>=, 0
+    assert_operator popup_bounds["right"], :<=, popup_bounds["viewportWidth"]
+  end
+
   private
     def fill_in_lexxy(selector = "lexxy-editor", with:)
       editor_element = find(selector)

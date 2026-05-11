@@ -5,28 +5,35 @@ export default class extends Controller {
   static targets = [ "tooltip" ]
 
   connect() {
-    this.element.addEventListener("mouseenter", this.mouseEnter.bind(this))
-    this.element.addEventListener("mouseout", this.mouseOut.bind(this))
+    this.mouseEnterListener = this.mouseEnter.bind(this)
+    this.mouseOutListener = this.mouseOut.bind(this)
+
+    this.element.addEventListener("mouseenter", this.mouseEnterListener)
+    this.element.addEventListener("mouseout", this.mouseOutListener)
   }
 
   disconnect() {
-    this.element.removeEventListener("mouseenter", this.mouseEnter.bind(this))
-    this.element.removeEventListener("mouseout", this.mouseOut.bind(this))
+    this.element.removeEventListener("mouseenter", this.mouseEnterListener)
+    this.element.removeEventListener("mouseout", this.mouseOutListener)
   }
 
-  mouseEnter(event) {
-    orient({ target: this.#tooltipElement, anchor: this.element })
+  mouseEnter() {
+    if (!this.hasTooltipElement) return
+
+    orient({ target: this.tooltipElement, anchor: this.element })
   }
 
-  mouseOut(event) {
-    orient({ target: this.#tooltipElement, reset: true })
+  mouseOut() {
+    if (!this.hasTooltipElement) return
+
+    orient({ target: this.tooltipElement, reset: true })
   }
 
-  get #tooltipElement() {
-    return this.element.querySelector(".for-screen-reader")
+  get hasTooltipElement() {
+    return !!this.tooltipElement
   }
 
-  get #tooltipText() {
-    return this.#tooltipElement.innerText
+  get tooltipElement() {
+    return this.hasTooltipTarget ? this.tooltipTarget : this.element.querySelector(".for-screen-reader")
   }
 }
