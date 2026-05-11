@@ -675,7 +675,8 @@
 
   /* PR Link Button */
   .pr-link-button {
-    display: contents;
+    display: inline-flex;
+    position: relative;
   }
 
   .btn--pr-linked {
@@ -693,11 +694,11 @@
     background-color: white !important;
     border-radius: 0.75em;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-    inline-size: auto !important;
+    inline-size: min(55ch, calc(100vw - 2rem)) !important;
     inset: 100% auto auto 50% !important;
     margin-block-start: 0.5ch;
-    min-inline-size: 55ch !important;
-    max-inline-size: 70ch !important;
+    min-inline-size: min(55ch, calc(100vw - 2rem)) !important;
+    max-inline-size: calc(100vw - 2rem) !important;
     padding: 1em 1.5em !important;
     z-index: 1000 !important;
 

@@ -113,6 +113,17 @@ class SmokeTest < ApplicationSystemTestCase
     assert_equal "https://github.com/basecamp/fizzy/pull/999", card.reload.pull_request_links.first.github_pr_url
   end
 
+  test "link pull request modal stays visible on a narrow viewport" do
+    sign_in_as(users(:david))
+
+    page.current_window.resize_to(390, 844)
+    visit card_url(cards(:shipping))
+    find("button.pr-status-icon").click
+
+    assert_selector "dialog.pr-link-popup[open]"
+    assert_selector "dialog.pr-link-popup[open] input[name='pull_request_link[github_pr_url]']", visible: true
+  end
+
   private
     def fill_in_lexxy(selector = "lexxy-editor", with:)
       editor_element = find(selector)
