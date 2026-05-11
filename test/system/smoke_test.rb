@@ -122,6 +122,17 @@ class SmokeTest < ApplicationSystemTestCase
 
     assert_selector "dialog.pr-link-popup[open]"
     assert_selector "dialog.pr-link-popup[open] input[name='pull_request_link[github_pr_url]']", visible: true
+
+    popup_bounds = page.evaluate_script(<<~JS)
+      (() => {
+        const popup = document.querySelector("dialog.pr-link-popup[open]")
+        const rect = popup.getBoundingClientRect()
+        return { left: rect.left, right: rect.right, viewportWidth: window.innerWidth }
+      })()
+    JS
+
+    assert_operator popup_bounds["left"], :>=, 0
+    assert_operator popup_bounds["right"], :<=, popup_bounds["viewportWidth"]
   end
 
   private
