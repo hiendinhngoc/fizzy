@@ -16,7 +16,9 @@ class PullRequestLink < ApplicationRecord
 
   before_validation :extract_pr_details
 
-  scope :for_pr, ->(repo, number) { where(github_repo_full_name: repo, github_pr_number: number.to_s) }
+  scope :for_pr, ->(repo, number) {
+    where("LOWER(github_repo_full_name) = ? AND github_pr_number = ?", repo.to_s.downcase, number.to_s)
+  }
   scope :open, -> { where(state: "open") }
   scope :merged, -> { where(state: "merged") }
 
@@ -30,7 +32,7 @@ class PullRequestLink < ApplicationRecord
   private
     def extract_pr_details
       if match = github_pr_url&.match(GITHUB_PR_URL_REGEX)
-        self.github_repo_full_name = "#{match[:owner]}/#{match[:repo]}"
+        self.github_repo_full_name = "#{match[:owner]}/#{match[:repo]}".downcase
         self.github_pr_number = match[:number]
       end
     end
