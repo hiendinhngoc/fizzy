@@ -19,6 +19,25 @@ class Github::ProcessMergedPrJobTest < ActiveJob::TestCase
     assert card.reload.closed?
   end
 
+  test "closes cards with direct PR links regardless of repo name casing" do
+    link = pull_request_links(:logo_pr)
+    card = link.card
+    link.update_column(:github_repo_full_name, "Basecamp/Fizzy")
+
+    assert card.open?
+
+    perform_enqueued_jobs do
+      Github::ProcessMergedPrJob.perform_later(
+        repo: "basecamp/fizzy",
+        pr_number: "123",
+        pr_body: ""
+      )
+    end
+
+    assert link.reload.state == "merged"
+    assert card.reload.closed?
+  end
+
   test "closes cards referenced in PR body" do
     card = cards(:text)
     account = card.account

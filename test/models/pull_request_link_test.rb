@@ -23,6 +23,16 @@ class PullRequestLinkTest < ActiveSupport::TestCase
     assert_equal "42", link.github_pr_number
   end
 
+  test "normalizes repo name from PR URL" do
+    link = PullRequestLink.new(
+      card: cards(:logo),
+      github_pr_url: "https://github.com/Basecamp/Fizzy/pull/42"
+    )
+    link.valid?
+
+    assert_equal "basecamp/fizzy", link.github_repo_full_name
+  end
+
   test "validates PR URL format" do
     link = PullRequestLink.new(card: cards(:logo), github_pr_url: "not a url")
     assert_not link.valid?
@@ -56,6 +66,15 @@ class PullRequestLinkTest < ActiveSupport::TestCase
 
     not_found = PullRequestLink.for_pr("other/repo", 123)
     assert_not_includes not_found, link
+  end
+
+  test "for_pr matches repo names case-insensitively" do
+    link = pull_request_links(:logo_pr)
+    link.update_column(:github_repo_full_name, "Basecamp/Fizzy")
+
+    found = PullRequestLink.for_pr("basecamp/fizzy", 123)
+
+    assert_includes found, link
   end
 
   test "mark_merged closes the card" do
