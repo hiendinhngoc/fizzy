@@ -93,7 +93,6 @@ class SmokeTest < ApplicationSystemTestCase
     column_el.find(".cards__expander-count", text: cards_count + 1)
     assert_equal("Triage", card.reload.column.name)
   end
-
   test "linking a pull request from a card" do
     sign_in_as(users(:david))
 
